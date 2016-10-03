@@ -213,10 +213,10 @@ defmodule RethinkDB.Connection do
     pool =
       cond do
         pid ->
-          Process.info(pid, :dictionary)
+          {:ok, {pool, _, _}} = Process.info(pid, :dictionary)
           |> elem(1)
           |> Access.fetch(:"$initial_call")
-          |> elem(0)
+          pool
         true ->
           nil
       end
